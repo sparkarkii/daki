@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang=en>
+	<head>
+		<meta charset='utf-8'>
+		<style>
+			img {
+				width:100%; 
+				max-width:400px; 
+				margin-bottom:10px;
+			}
+		</style>
+	</head>
+	<body>
+		{% for daki in dakis %}
+		<a href="{{ daki.link }}">
+			<img src="{{ daki.image }}">
+		</a>
+		{% endfor %}
+		<br>
+	</body>
+</html>
