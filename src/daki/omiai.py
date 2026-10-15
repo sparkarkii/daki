@@ -6,7 +6,7 @@ from collections import namedtuple
 from mailer import Mailer
 from dotenv import load_dotenv
 from os import environ
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, PackageLoader, select_autoescape
 
 
 Daki = namedtuple('Daki', ['title', 'date', 'image', 'link'])
@@ -14,7 +14,7 @@ Daki = namedtuple('Daki', ['title', 'date', 'image', 'link'])
 class Task:
 	SITE = 'http://omiai-dakimakura.com/page/' 
 	def __init__(self):
-		self._date = datetime.date.today() - datetime.timedelta(days=1)
+		self._date = datetime.date.today()
 		self._new_dakis = []
 
 	def run(self):
@@ -51,7 +51,7 @@ class Task:
 	def _notify(self) -> None:
 		load_dotenv()
 		acco, pw = environ['EMAIL'], environ['PW']
-		env = Environment(loader=FileSystemLoader('../templates'), autoescape=select_autoescape)
+		env = Environment(loader=PackageLoader('daki'), autoescape=select_autoescape)
 		templ = env.get_template('email.html')
 		subj = f'{self._date} new dakis'
 		cont = templ.render(dakis=self._new_dakis)
