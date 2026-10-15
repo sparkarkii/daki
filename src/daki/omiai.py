@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 from collections import namedtuple
+import argparse
+import sys
 
 from mailer import Mailer
 from dotenv import load_dotenv
@@ -13,8 +15,8 @@ Daki = namedtuple('Daki', ['title', 'date', 'image', 'link'])
 
 class Task:
 	SITE = 'http://omiai-dakimakura.com/page/' 
-	def __init__(self):
-		self._date = datetime.date.today()
+	def __init__(self, yesterday: bool):
+		self._date = datetime.date.today()-datetime.timedelta(days=1) if yesterday else datetime.date.today() # for testing purpose.
 		self._new_dakis = []
 
 	def run(self):
@@ -60,7 +62,10 @@ class Task:
 
 
 def main():
-	task = Task()
+	p = argparse.ArgumentParser()
+	p.add_argument('-y', '--yesterday', action='store_true')
+	args = p.parse_args()
+	task = Task(args.yesterday)
 	task.run()
 
 if __name__ == '__main__':
