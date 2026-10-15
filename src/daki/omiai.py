@@ -43,7 +43,6 @@ class Task:
 
 	def _check(self, dakis: list[Daki]) -> bool:
 		for daki in dakis: 
-			print(daki)
 			if daki.date < self._date:
 				return False
 			self._new_dakis.append(daki)
